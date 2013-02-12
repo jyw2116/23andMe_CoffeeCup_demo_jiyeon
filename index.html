@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>23andMe Demo App using CoffeeCup</title>
+
+    <!-- jQuery is NOT required, used here for convenience -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+    <script src="http://jashkenas.github.com/coffee-script/extras/coffee-script.js"></script>
+    <script src="lib/coffeecup.js"></script>
+
+    <script type="text/coffeescript">
+
+      possibilities = ['AA', 'AG', 'GG']
+      
+      $().ready ->
+        stringy = """
+          h2 'Template as string'
+
+          ul ->
+            for guy in @possibilities
+              li guy
+        """
+
+        codey = ->
+          h2 'Template as a function'
+
+          ul ->
+            for guy in @possibilities
+              li guy
+
+        $('body').append coffeecup.render(stringy, possibilities: possibilities)
+        $('body').append coffeecup.render(codey, possibilities: possibilities)
+    </script>
+  </head>
+  <body>
+    <h1>23andMe Demo App using CoffeeCup</h1>
+    
+    <script src="https://api.23andme.com/res/js/ttam-0.3.js"></script>
+
+    <div id="connect_button"></div>
+    <div id="snp_table">Loading...</div>
+    <script>
+        window.onload = function () {
+            var ttam = TTAM('YOUR 23ANDME API KEY HERE');
+
+            ttam.connectButton('connect_button', ["basic", "rs4680"]);
+
+            ttam.snpTable('snp_table', 'rs4680', {
+                AA: 'Val -> Met substitution at codon 158',
+                AG: 'Val -> Met substitution at codon 158',
+                GG: 'no Val -> Met substitution at codon 158',
+                order: 'AA,AG,GG'
+            }, {
+                width: 450
+            });
+        };
+    </script>
+  </body>
+</html>
